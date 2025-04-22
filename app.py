@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import requests
@@ -7,14 +7,16 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+# Supabase 連線設定
+SUPABASE_URL = os.getenv("https://wphputckeepkdyqzwtqk.supabase.co")
+SUPABASE_KEY = os.getenv("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwaHB1dGNrZWVwa2R5cXp3dHFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyODIwOTIsImV4cCI6MjA2MDg1ODA5Mn0.m-U7TbPXhuCKTyntWpUF10DsjxOa2pXVPKBwXXWrhKw")
 HEADERS = {
     "apikey": SUPABASE_KEY,
     "Authorization": f"Bearer {SUPABASE_KEY}",
     "Content-Type": "application/json"
 }
 
+# ✅ 註冊 API
 @app.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
@@ -31,6 +33,7 @@ def register():
         return jsonify({"status": "registered"}), 201
     return jsonify({"error": resp.text}), 400
 
+# ✅ 登入 API
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -49,14 +52,11 @@ def login():
         "company": user["company_name"]
     })
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000)
-
-from flask import Flask, render_template
-
-app = Flask(__name__)
-
+# ✅ 註冊頁面（用瀏覽器開啟）
 @app.route("/register-form")
 def register_form():
     return render_template("register-form.html")
 
+# ✅ 主程式執行點
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
