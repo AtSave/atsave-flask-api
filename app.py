@@ -57,6 +57,11 @@ def login():
 def register_form():
     return render_template("register-form.html")
 
+# ✅ 登入頁面（用瀏覽器開啟）
+@app.route("/login-form")
+def login_form():
+    return render_template("login-form.html")
+
 # ✅ 主程式執行點
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
