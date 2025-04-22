@@ -1,1 +1,44 @@
-templates/register-form.html
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>註冊 - ATSAVE 系統</title>
+  <style>
+    body { font-family: sans-serif; background: #f3f4f6; padding: 2rem; }
+    .container { max-width: 400px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 1rem; }
+    button { background-color: #0070f3; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #005bbb; }
+    .result { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>註冊 ATSAVE 帳號</h2>
+    <form id="registerForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="密碼" required />
+      <input type="text" id="company" placeholder="公司名稱" required />
+      <button type="submit">送出註冊</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const company = document.getElementById("company").value;
+      const response = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, company_name: company })
+      });
+      const result = await response.json();
+      document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+    });
+  </script>
+</body>
+</html>
