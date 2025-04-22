@@ -52,8 +52,11 @@ def login():
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
 
-from flask import render_template
+from flask import Flask, render_template
+
+app = Flask(__name__)
 
 @app.route("/register-form")
 def register_form():
     return render_template("register-form.html")
+
