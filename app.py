@@ -51,3 +51,8 @@ def login():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
+from flask import send_from_directory
+
+@app.route("/register-form")
+def register_form():
+    return send_from_directory('.', 'register-form.html')
