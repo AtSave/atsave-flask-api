@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>登入 - ATSAVE 系統</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f4f6;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+      text-align: center;
+    }
+    img.logo {
+      width: 200px;
+      margin-bottom: 1rem;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bbb;
+    }
+    .result {
+      margin-top: 1rem;
+      background-color: #eef;
+      padding: 1rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="logo" src="/static/logo.jpg" alt="ATSAVE Logo">
+    <h2>登入 ATSAVE</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="密碼" required />
+      <button type="submit">登入</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const result = await response.json();
+      document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+    });
+  </script>
+</body>
+</html>
